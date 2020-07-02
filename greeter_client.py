@@ -18,8 +18,10 @@ import logging
 
 import grpc
 
-import helloworld_pb2
-import helloworld_pb2_grpc
+# import helloworld_pb2
+# import helloworld_pb2_grpc
+import greeter_service_pb2
+import greeter_service_pb2_grpc
 
 
 def run():
@@ -27,9 +29,11 @@ def run():
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
     with grpc.insecure_channel('localhost:50051') as channel:
-        stub = helloworld_pb2_grpc.GreeterStub(channel)
-        response = stub.SayHello(helloworld_pb2.HelloRequest(name='you'))
-    print("Greeter client received: " + response.message)
+        stub = greeter_service_pb2_grpc.GreeterStub(channel)
+        response = stub.SayHello(greeter_service_pb2.HelloRequest(name='you'))
+        print("Greeter client received: " + response.message)
+        response = stub.SayHelloAgain(greeter_service_pb2.HelloRequest(name='new another you'))
+        print("Another Greeter client received: " + response.message)
 
 
 if __name__ == '__main__':
